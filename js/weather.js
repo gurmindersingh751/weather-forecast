@@ -1,7 +1,25 @@
 // Get a free key at http://openweathermap.org/. Replace the "Your_Key_Here" string with that key.
 var OpenWeatherAppKey = "b3cfb44eeec2986f589369724a654efc";
 
+function getWeatherWithZipCode() {
 
+    var zipcode = $('#zip-code-input').val();
+
+    var queryString =
+        'http://api.openweathermap.org/data/2.5/weather?zip='
+         + zipcode + ',us&appid=' + OpenWeatherAppKey + '&units=metric';
+
+    $.getJSON(queryString, function (results) {
+
+        showWeatherData(results);
+
+    }).fail(function (jqXHR) {
+        $('#error-msg').show();
+        $('#error-msg').text("Error retrieving data. " + jqXHR.statusText);
+    });
+
+    return false;
+}
 function showWeatherData(results) {
 
     if (results.weather.length) {
